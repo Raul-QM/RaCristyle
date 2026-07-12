@@ -1,0 +1,5 @@
+node_modules
+coverage
+Entregables
+package-lock.json
+public/assets
