@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="RaCristyle: reservas simples para negocios extraordinarios."
+    />
+    <title>RaCristyle | Tu agenda, bajo control</title>
+    <link rel="icon" type="image/png" href="/assets/logo-racristyle-transparent.png?v=2" />
+    <link rel="apple-touch-icon" href="/assets/logo-racristyle-transparent.png?v=2" />
+    <link rel="stylesheet" href="/styles.css?v=20260823-3" />
+    <script src="/app.js?v=20260823-2" type="module"></script>
+  </head>
+  <body>
+    <header class="nav">
+      <a href="/" class="brand" aria-label="RaCristyle, inicio">
+        <span class="brand-mark" role="img" aria-label="Logo de RaCristyle"></span>
+        <span>RaCri<span>style</span></span>
+      </a>
+      <nav>
+        <a href="#beneficios">Beneficios</a>
+        <button class="button button-ghost" data-open="login">Ingresar</button>
+        <button class="button button-dark" data-open="register">Crear cuenta</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Agenda inteligente · atención memorable</p>
+          <h1>Menos mensajes.<br /><em>Más clientes.</em></h1>
+          <p class="hero-text">
+            Organiza tu barbería, salón o spa desde un solo lugar. Empieza hoy y convierte cada
+            reserva en una experiencia impecable.
+          </p>
+          <div class="hero-actions">
+            <button class="button button-primary button-large" data-open="register">
+              Crear mi espacio <span>→</span>
+            </button>
+            <span class="helper">Configuración en pocos minutos</span>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="Cómo funciona RaCristyle">
+          <div class="card-top">
+            <span class="brand-mark" role="img" aria-label="Logo de RaCristyle"></span>
+            <div>
+              <small>PLATAFORMA PARA TU NEGOCIO</small><strong>Tu marca, tu espacio</strong>
+            </div>
+            <span class="live"><i></i> 24/7</span>
+          </div>
+          <div class="metric">
+            <span>Empieza en pocos pasos</span><strong>03</strong
+            ><small>Simple, rápido y profesional</small>
+          </div>
+          <div class="schedule">
+            <p>
+              <b>01</b><span>Presenta tu negocio<small>Nombre, descripción y horario</small></span>
+            </p>
+            <p>
+              <b>02</b
+              ><span>Publica tus servicios<small>Precio, duración y profesionales</small></span>
+            </p>
+            <p>
+              <b>03</b
+              ><span>Recibe reservas<small>Disponibilidad y confirmación en línea</small></span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust">
+        <p>CREADO PARA QUIENES HACEN DEL CUIDADO UN ARTE</p>
+        <div><span>BARBERÍAS</span><span>SALONES DE BELLEZA</span><span>SPAS</span></div>
+      </section>
+
+      <section id="beneficios" class="benefits">
+        <article>
+          <span>01</span>
+          <h2>Tu agenda clara</h2>
+          <p>Visualiza tu operación y evita cruces de horario.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Disponible 24/7</h2>
+          <p>Tus clientes reservan incluso cuando estás ocupado.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Tu marca primero</h2>
+          <p>Personaliza la información que representa tu negocio.</p>
+        </article>
+      </section>
+    </main>
+
+    <dialog id="auth-dialog">
+      <button class="dialog-close" aria-label="Cerrar">×</button>
+      <div class="dialog-brand">
+        <span class="brand-mark" role="img" aria-label="Logo de RaCristyle"></span>
+      </div>
+      <section id="register-panel">
+        <p class="eyebrow">COMIENZA AHORA</p>
+        <h2>Crea tu cuenta</h2>
+        <p class="muted">Tu negocio organizado empieza aquí.</p>
+        <form id="register-form">
+          <label
+            >Nombre completo<input name="nombre" autocomplete="name" required minlength="3"
+          /></label>
+          <label
+            >Correo electrónico<input name="email" type="email" autocomplete="email" required
+          /></label>
+          <label
+            >Contraseña
+            <span class="password-field">
+              <input
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+                minlength="8"
+              />
+              <button
+                class="password-toggle"
+                type="button"
+                aria-label="Mostrar contraseña"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">👁</span>
+              </button>
+            </span>
+            <small>8+ caracteres, mayúscula, minúscula y número.</small>
+          </label>
+          <p class="form-error" role="alert"></p>
+          <button class="button button-primary button-full" type="submit">Crear mi cuenta</button>
+        </form>
+        <p class="switch">¿Ya tienes cuenta? <button data-switch="login">Inicia sesión</button></p>
+      </section>
+      <section id="login-panel" hidden>
+        <p class="eyebrow">QUÉ GUSTO VERTE</p>
+        <h2>Inicia sesión</h2>
+        <p class="muted">Continúa construyendo una mejor experiencia.</p>
+        <p id="auth-success" class="auth-success" hidden></p>
+        <form id="login-form">
+          <label
+            >Correo electrónico<input name="email" type="email" autocomplete="email" required
+          /></label>
+          <label
+            >Contraseña
+            <span class="password-field">
+              <input name="password" type="password" autocomplete="current-password" required />
+              <button
+                class="password-toggle"
+                type="button"
+                aria-label="Mostrar contraseña"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">👁</span>
+              </button>
+            </span>
+          </label>
+          <p class="form-error" role="alert"></p>
+          <button class="button button-dark button-full" type="submit">Ingresar al panel</button>
+        </form>
+        <p class="switch">
+          ¿Aún no tienes cuenta? <button data-switch="register">Créala gratis</button>
+        </p>
+      </section>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-dialog-title">
+      <button id="confirm-dialog-close" class="dialog-close" type="button" aria-label="Cerrar">
+        ×
+      </button>
+      <div class="confirm-dialog-icon" aria-hidden="true">!</div>
+      <p class="eyebrow">CONFIRMA ESTA ACCIÓN</p>
+      <h2 id="confirm-dialog-title">¿Deseas continuar?</h2>
+      <p id="confirm-dialog-message" class="muted"></p>
+      <div class="confirm-dialog-actions">
+        <button id="confirm-dialog-cancel" class="button button-ghost" type="button">Volver</button>
+        <button id="confirm-dialog-accept" class="button button-dark" type="button">
+          Confirmar
+        </button>
+      </div>
+    </dialog>
+
+    <dialog id="cancellation-dialog" class="confirm-dialog" aria-labelledby="cancellation-title">
+      <button id="cancellation-close" class="dialog-close" type="button" aria-label="Cerrar">
+        ×
+      </button>
+      <div class="confirm-dialog-icon" aria-hidden="true">!</div>
+      <p class="eyebrow">CANCELAR CITA</p>
+      <h2 id="cancellation-title">Indica el motivo</h2>
+      <p class="muted">
+        El cliente recibirá este mensaje por correo y el horario quedará disponible.
+      </p>
+      <label for="cancellation-reason">Motivo de cancelación</label>
+      <textarea
+        id="cancellation-reason"
+        minlength="10"
+        maxlength="500"
+        rows="5"
+        placeholder="Ej. El trabajador no estará disponible por una emergencia."
+        required
+      ></textarea>
+      <small id="cancellation-count">0/500</small>
+      <p id="cancellation-error" class="form-error" role="alert"></p>
+      <div class="confirm-dialog-actions">
+        <button id="cancellation-back" class="button button-ghost" type="button">Volver</button>
+        <button id="cancellation-accept" class="button confirm-dialog-confirm-danger" type="button">
+          Cancelar y notificar
+        </button>
+      </div>
+    </dialog>
+
+    <section id="dashboard" class="dashboard" hidden>
+      <aside>
+        <a href="/" class="brand"
+          ><span class="brand-mark" role="img" aria-label="Logo de RaCristyle"></span
+          ><span>RaCri<span>style</span></span></a
+        >
+        <p class="aside-label">ESPACIO DE TRABAJO</p>
+        <div class="business-switcher">
+          <div class="business-switcher-heading">
+            <span id="active-business-initial" aria-hidden="true">N</span>
+            <div>
+              <small>ADMINISTRANDO</small>
+              <strong id="active-business-name">Sin negocio</strong>
+            </div>
+            <i aria-label="Negocio activo" title="Negocio activo"></i>
+          </div>
+          <label for="active-business">Cambiar de negocio</label>
+          <div class="business-select-shell">
+            <select id="active-business" aria-label="Seleccionar negocio" tabindex="-1"></select>
+            <button
+              id="business-picker-trigger"
+              class="business-picker-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span id="business-picker-label">Seleccionar negocio</span><i>⌄</i>
+            </button>
+            <div id="business-picker-menu" class="business-picker-menu" role="listbox" hidden></div>
+          </div>
+          <button id="new-business" class="button button-ghost" type="button">
+            + Nuevo negocio
+          </button>
+        </div>
+        <button class="aside-link active" data-view="business">⌂ <span>Mi negocio</span></button>
+        <button class="aside-link" data-view="services">✦ <span>Servicios</span></button>
+        <button class="aside-link" data-view="team">◎ <span>Equipo</span></button>
+        <button class="aside-link" data-view="booking">↗ <span>Página de reservas</span></button>
+        <button class="aside-link" data-view="agenda">▦ <span>Agenda</span></button>
+        <div class="aside-user">
+          <span class="avatar">RQ</span>
+          <div><b id="aside-name"></b><small>Administrador</small></div>
+        </div>
+        <button id="logout" class="aside-link">↗ <span>Cerrar sesión</span></button>
+      </aside>
+      <div id="business-view" class="dashboard-main dashboard-view">
+        <header>
+          <div>
+            <p class="eyebrow">CONFIGURACIÓN DEL NEGOCIO</p>
+            <h1 id="business-view-title">Crea tu Negocio</h1>
+          </div>
+          <span class="status-pill">● CUENTA ACTIVA</span>
+        </header>
+        <div id="welcome" class="notice">¡Cuenta creada! Ahora cuéntanos sobre tu negocio.</div>
+        <form id="business-form" class="business-form">
+          <div class="form-heading">
+            <span>01</span>
+            <div>
+              <h2 id="business-form-title">Configura tu Negocio</h2>
+              <p>Esta información será la presentación de tu marca.</p>
+            </div>
+          </div>
+          <label
+            >Nombre del negocio<input
+              name="nombre"
+              required
+              minlength="2"
+              maxlength="100"
+              placeholder="Ej. Barbería Central"
+          /></label>
+          <label
+            >Descripción<textarea
+              name="descripcion"
+              required
+              minlength="10"
+              maxlength="700"
+              rows="5"
+              placeholder="Cuéntale a tus clientes qué hace especial a tu negocio..."
+            ></textarea
+            ><small><span id="description-count">0</span>/700</small></label
+          >
+          <div class="two-columns">
+            <label
+              >Teléfono<input
+                name="telefono"
+                required
+                minlength="8"
+                maxlength="20"
+                placeholder="8888-8888"
+            /></label>
+            <label
+              >Dirección<input
+                name="direccion"
+                required
+                minlength="5"
+                maxlength="150"
+                placeholder="Ciudad Quesada, San Carlos"
+            /></label>
+          </div>
+          <div class="schedule-fields">
+            <div>
+              <span class="schedule-icon">◷</span>
+              <div>
+                <b>Horario de atención</b><small>Define cuándo pueden reservar tus clientes.</small>
+              </div>
+            </div>
+            <div class="two-columns">
+              <label
+                >Hora de apertura<input name="horaApertura" type="time" required value="08:00"
+              /></label>
+              <label
+                >Hora de cierre<input name="horaCierre" type="time" required value="18:00"
+              /></label>
+            </div>
+            <fieldset class="days-selector">
+              <legend>Días abiertos</legend>
+              <label><input type="checkbox" name="diasAbiertos" value="1" checked />Lunes</label>
+              <label><input type="checkbox" name="diasAbiertos" value="2" checked />Martes</label>
+              <label
+                ><input type="checkbox" name="diasAbiertos" value="3" checked />Miércoles</label
+              >
+              <label><input type="checkbox" name="diasAbiertos" value="4" checked />Jueves</label>
+              <label><input type="checkbox" name="diasAbiertos" value="5" checked />Viernes</label>
+              <label><input type="checkbox" name="diasAbiertos" value="6" checked />Sábado</label>
+              <label><input type="checkbox" name="diasAbiertos" value="0" />Domingo</label>
+            </fieldset>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <div class="save-row">
+            <span id="save-status">Los cambios se guardan de forma segura.</span
+            ><button id="save-business" class="button button-primary" type="submit">
+              Guardar negocio →
+            </button>
+          </div>
+        </form>
+        <form id="branding-form" class="business-form branding-form" enctype="multipart/form-data">
+          <div class="form-heading">
+            <span>02</span>
+            <div>
+              <h2>Personaliza tu página pública</h2>
+              <p>Usa la identidad visual de tu negocio en lugar del diseño predeterminado.</p>
+            </div>
+          </div>
+          <div class="branding-grid">
+            <div>
+              <label for="business-logo">Logo del negocio</label>
+              <div class="image-upload-preview">
+                <img id="logo-preview" alt="Vista previa del logo" hidden />
+                <span id="logo-placeholder">LOGO</span>
+              </div>
+              <input
+                id="business-logo"
+                name="logo"
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+              />
+              <small>PNG, JPG o WebP. Máximo 2 MB.</small>
+            </div>
+            <fieldset class="background-selector">
+              <legend>Fondo de la página</legend>
+              <label class="background-option background-light"
+                ><input type="radio" name="fondoTipo" value="claro" checked />Claro</label
+              >
+              <label class="background-option background-sand"
+                ><input type="radio" name="fondoTipo" value="arena" />Arena</label
+              >
+              <label class="background-option background-dark"
+                ><input type="radio" name="fondoTipo" value="oscuro" />Oscuro</label
+              >
+              <label class="background-option background-custom"
+                ><input type="radio" name="fondoTipo" value="personalizado" />Imagen propia</label
+              >
+            </fieldset>
+          </div>
+          <label id="custom-background-field" hidden
+            >Imagen de fondo<input
+              id="business-background"
+              name="fondo"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+            /><small>Imagen horizontal de máximo 2 MB.</small></label
+          >
+          <div class="two-columns color-fields">
+            <label
+              >Color principal<input name="colorPrimario" type="color" value="#d9ff43" /><output
+                id="primary-color-value"
+                >#D9FF43</output
+              ></label
+            >
+            <label
+              >Color secundario<input name="colorSecundario" type="color" value="#171713" /><output
+                id="secondary-color-value"
+                >#171713</output
+              >
+              <span class="color-presets" aria-label="Colores secundarios rápidos">
+                <button
+                  type="button"
+                  data-color="#171713"
+                  style="--swatch: #171713"
+                  aria-label="Negro"
+                ></button>
+                <button
+                  type="button"
+                  data-color="#263238"
+                  style="--swatch: #263238"
+                  aria-label="Gris oscuro"
+                ></button>
+                <button
+                  type="button"
+                  data-color="#172554"
+                  style="--swatch: #172554"
+                  aria-label="Azul oscuro"
+                ></button>
+                <button
+                  type="button"
+                  data-color="#3F1D38"
+                  style="--swatch: #3f1d38"
+                  aria-label="Vino"
+                ></button>
+                <button
+                  type="button"
+                  data-color="#173B2B"
+                  style="--swatch: #173b2b"
+                  aria-label="Verde oscuro"
+                ></button>
+                <button
+                  type="button"
+                  data-color="#5B4636"
+                  style="--swatch: #5b4636"
+                  aria-label="Café"
+                ></button> </span
+            ></label>
+          </div>
+          <div id="branding-preview" class="branding-live-preview">
+            <span>VISTA PREVIA</span><strong id="branding-preview-name">Tu negocio</strong>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <div class="save-row">
+            <span id="branding-status">Los cambios aparecerán en la página de reservas.</span>
+            <button class="button button-primary" type="submit">Guardar diseño →</button>
+          </div>
+        </form>
+      </div>
+      <div id="services-view" class="dashboard-main dashboard-view" hidden>
+        <header>
+          <div>
+            <p class="eyebrow">CATÁLOGO DE SERVICIOS</p>
+            <h1>Tus servicios.</h1>
+          </div>
+          <div class="header-actions">
+            <button id="continue-to-team" class="button button-dark" type="button" hidden>
+              Continuar a trabajadores →</button
+            ><button id="open-service-form" class="button button-primary">+ Nuevo servicio</button>
+          </div>
+        </header>
+        <p id="services-error" class="form-error section-error" role="alert"></p>
+        <form id="service-form" class="business-form service-form" hidden>
+          <div class="form-heading">
+            <span>02</span>
+            <div>
+              <h2 id="service-form-title">Nuevo servicio</h2>
+              <p>Define lo que ofreces, su duración y precio.</p>
+            </div>
+          </div>
+          <label
+            >Nombre del servicio<input
+              name="nombre"
+              required
+              minlength="2"
+              maxlength="100"
+              placeholder="Ej. Corte clásico"
+          /></label>
+          <label
+            >Descripción<input
+              name="descripcion"
+              required
+              minlength="5"
+              maxlength="300"
+              placeholder="Una breve descripción para tus clientes"
+          /></label>
+          <div class="two-columns">
+            <label
+              >Precio (₡)<input
+                name="precio"
+                type="number"
+                required
+                min="1"
+                step="0.01"
+                placeholder="5000"
+            /></label>
+            <label
+              >Duración (minutos)<input
+                name="duracion"
+                type="number"
+                required
+                min="5"
+                max="480"
+                step="5"
+                value="30"
+            /></label>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <div class="save-row">
+            <button id="cancel-service" class="button button-ghost" type="button">Cancelar</button
+            ><button id="save-service" class="button button-primary" type="submit">
+              Agregar servicio →
+            </button>
+          </div>
+        </form>
+        <div id="services-empty" class="empty-state">
+          <span>✦</span>
+          <h2>Tu catálogo comienza aquí</h2>
+          <p>Agrega el primer servicio que tus clientes podrán reservar.</p>
+        </div>
+        <div id="services-list" class="services-grid"></div>
+      </div>
+      <div id="team-view" class="dashboard-main dashboard-view" hidden>
+        <header>
+          <div>
+            <p class="eyebrow">TRABAJADORES DEL NEGOCIO</p>
+            <h1>Tu equipo.</h1>
+          </div>
+          <div class="header-actions">
+            <button id="continue-to-booking" class="button button-dark" type="button" hidden>
+              Continuar a reservas →</button
+            ><button id="open-employee-form" class="button button-primary">
+              + Nuevo trabajador
+            </button>
+          </div>
+        </header>
+        <p id="employees-error" class="form-error section-error" role="alert"></p>
+        <form id="employee-form" class="business-form service-form" hidden>
+          <div class="form-heading">
+            <span>03</span>
+            <div>
+              <h2 id="employee-form-title">Agregar trabajador</h2>
+              <p>Los clientes podrán elegir quién los atenderá.</p>
+            </div>
+          </div>
+          <label
+            >Nombre completo<input
+              name="nombre"
+              required
+              minlength="2"
+              maxlength="100"
+              placeholder="Ej. Andrés Mora"
+          /></label>
+          <label
+            >Especialidad<input
+              name="especialidad"
+              required
+              minlength="2"
+              maxlength="120"
+              placeholder="Ej. Barbero, estilista, masajista"
+          /></label>
+          <p class="form-error" role="alert"></p>
+          <div class="save-row">
+            <button id="cancel-employee" class="button button-ghost" type="button">Cancelar</button
+            ><button id="save-employee" class="button button-primary" type="submit">
+              Agregar al equipo →
+            </button>
+          </div>
+        </form>
+        <div id="employees-empty" class="empty-state">
+          <span>◎</span>
+          <h2>Agrega a tu equipo</h2>
+          <p>Necesitas al menos un profesional para recibir reservas.</p>
+        </div>
+        <div id="employees-list" class="services-grid"></div>
+      </div>
+      <div id="booking-view" class="dashboard-main dashboard-view" hidden>
+        <header>
+          <div>
+            <p class="eyebrow">ÚLTIMO PASO</p>
+            <h1>Página de reservas.</h1>
+          </div>
+        </header>
+        <div id="booking-link-card" class="booking-link-card">
+          <div>
+            <b id="booking-link-title">Comprobando configuración…</b
+            ><small id="booking-link-help">Espera un momento.</small>
+          </div>
+          <a id="booking-link" class="button button-dark" target="_blank" hidden>Abrir página ↗</a>
+          <button id="booking-complete-step" class="button button-dark" type="button" hidden>
+            Completar paso →
+          </button>
+        </div>
+        <div class="business-form">
+          <div class="form-heading">
+            <span>04</span>
+            <div>
+              <h2>Comparte tu agenda</h2>
+              <p>La página se habilita al completar negocio, servicios y trabajadores.</p>
+            </div>
+          </div>
+          <div id="booking-requirements" class="services-grid"></div>
+        </div>
+      </div>
+      <div id="agenda-view" class="dashboard-main dashboard-view" hidden>
+        <header>
+          <div>
+            <p class="eyebrow">ADMINISTRACIÓN DE CITAS</p>
+            <h1>Agenda de citas.</h1>
+          </div>
+          <button id="refresh-agenda" class="button button-ghost" type="button">
+            Actualizar ↻
+          </button>
+        </header>
+        <div class="agenda-summary" aria-label="Resumen de citas">
+          <article><small>TOTAL</small><strong id="agenda-total">0</strong></article>
+          <article><small>PENDIENTES</small><strong id="agenda-pending">0</strong></article>
+          <article><small>CONFIRMADAS</small><strong id="agenda-confirmed">0</strong></article>
+        </div>
+        <form id="agenda-filters" class="agenda-filters">
+          <label>Fecha<input name="fecha" type="date" /></label>
+          <label
+            >Estado<select name="estado">
+              <option value="">Todos los estados</option>
+              <option>Pendiente</option>
+              <option>Confirmada</option>
+              <option>Cancelada</option>
+              <option>Completada</option>
+            </select></label
+          >
+          <button class="button button-dark" type="submit">Aplicar filtros</button>
+          <button id="clear-agenda-filters" class="button button-ghost" type="button">
+            Limpiar
+          </button>
+        </form>
+        <p id="agenda-error" class="form-error" role="alert"></p>
+        <div id="agenda-empty" class="empty-state" hidden>
+          <span>▦</span>
+          <h2>No hay citas para mostrar</h2>
+          <p>Las reservas de tus clientes aparecerán aquí.</p>
+        </div>
+        <div id="appointments-list" class="appointments-list"></div>
+      </div>
+    </section>
+  </body>
+</html>
