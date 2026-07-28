@@ -1,0 +1,324 @@
+.booking-page {
+  --business-primary: var(--acid);
+  --business-secondary: var(--ink);
+  min-height: 100vh;
+  background: var(--business-secondary);
+}
+.booking-nav {
+  height: 82px;
+  padding: 0 clamp(22px, 6vw, 90px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #36362f;
+}
+.booking-nav .brand img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border: 2px solid var(--business-primary, #d9ff43);
+  border-radius: 50%;
+}
+.public-business-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: 18px;
+}
+.public-business-brand img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--business-primary);
+}
+.booking-nav > span {
+  color: #85857c;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+.booking-shell {
+  min-height: calc(100vh - 82px);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+}
+.business-intro {
+  position: relative;
+  padding: clamp(55px, 9vw, 130px) clamp(28px, 7vw, 100px);
+  color: white;
+  overflow: hidden;
+  background-color: var(--business-secondary);
+  background-position: center;
+  background-size: cover;
+}
+.booking-page[data-background='claro'] .business-intro {
+  background: #f1efe8;
+  color: var(--business-secondary);
+}
+.booking-page[data-background='claro'] .business-intro > p:not(.eyebrow),
+.booking-page[data-background='claro'] .business-details small {
+  color: #66645d;
+}
+.booking-page[data-background='claro'] .whatsapp-link {
+  color: var(--business-secondary);
+}
+.booking-page[data-background='arena'] .business-intro {
+  background: #cdbb98;
+  color: var(--business-secondary);
+}
+.booking-page[data-background='arena'] .business-intro > p:not(.eyebrow),
+.booking-page[data-background='arena'] .business-details small {
+  color: #5b5142;
+}
+.booking-page[data-background='arena'] .whatsapp-link {
+  color: var(--business-secondary);
+}
+.business-intro .eyebrow {
+  color: var(--business-primary);
+}
+.business-intro h1 {
+  max-width: 560px;
+  margin: 18px 0 24px;
+  font: 700 clamp(52px, 6vw, 85px)/0.95 'Playfair Display';
+  letter-spacing: -3px;
+}
+.business-intro > p:not(.eyebrow) {
+  color: #aaa99f;
+  line-height: 1.7;
+  max-width: 520px;
+}
+.business-details {
+  display: flex;
+  gap: 50px;
+  margin-top: 55px;
+  border-top: 1px solid #393932;
+  padding-top: 25px;
+}
+.business-details p {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.business-details small {
+  color: #75756e;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+.business-details span {
+  font-size: 12px;
+}
+.whatsapp-link {
+  color: white;
+  font-size: 12px;
+  text-decoration-color: var(--business-primary);
+  text-underline-offset: 4px;
+}
+.whatsapp-link[href]:hover {
+  color: var(--business-primary);
+}
+.booking-decoration {
+  position: absolute;
+  right: -55px;
+  bottom: -140px;
+  color: #22221e;
+  font: italic 460px/0.8 'Playfair Display';
+  z-index: 0;
+  pointer-events: none;
+}
+.booking-card {
+  background: var(--paper);
+  padding: clamp(45px, 7vw, 95px) clamp(25px, 8vw, 120px);
+}
+.booking-card > div {
+  position: relative;
+  max-width: 700px;
+}
+.step-heading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 25px;
+  margin-bottom: 30px;
+}
+.step-heading > span {
+  font: italic 34px 'Playfair Display';
+  color: #a9a69d;
+}
+.step-heading p {
+  margin: 0 0 6px;
+}
+.step-heading h2,
+.confirmation h2 {
+  margin: 0;
+  font: 700 37px 'Playfair Display';
+}
+.booking-card select {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.selected-service {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  background: var(--white);
+  border-left: 4px solid var(--business-primary);
+  padding: 13px 16px;
+  margin: -8px 0 18px;
+}
+.selected-service span {
+  font-size: 11px;
+}
+.selected-service b {
+  font-family: 'Playfair Display';
+}
+.selected-service p {
+  grid-column: span 2;
+  color: var(--muted);
+  font-size: 11px;
+  margin: 6px 0 0;
+}
+.availability-help {
+  margin: -6px 0 18px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.confirmation {
+  text-align: center;
+  padding-top: 25px;
+}
+.confirmation-check {
+  display: grid;
+  place-items: center;
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 26px;
+  border-radius: 50%;
+  background: var(--business-primary);
+  font-size: 30px;
+  box-shadow: 5px 5px 0 var(--business-secondary);
+}
+.confirmation > p:not(.eyebrow) {
+  color: var(--muted);
+}
+.confirmation > strong {
+  display: block;
+  background: var(--white);
+  border: 1px dashed var(--business-secondary);
+  padding: 17px;
+  margin: 25px 0;
+  font-size: 21px;
+  letter-spacing: 3px;
+}
+.confirmation dl {
+  text-align: left;
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 8px 22px;
+}
+.confirmation dl div {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.confirmation dl div:last-child {
+  border: 0;
+}
+.confirmation dt {
+  color: var(--muted);
+  font-size: 11px;
+}
+.confirmation dd {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+.whatsapp-button {
+  display: block;
+  background: #25d366;
+  color: #102b19;
+  text-decoration: none;
+  margin-top: 18px;
+}
+.whatsapp-button:hover {
+  background: #1fbd5a;
+}
+.booking-error {
+  padding: 50px;
+  background: var(--white);
+}
+.booking-error h2 {
+  font: 700 35px 'Playfair Display';
+}
+.confirmation-page {
+  background: var(--paper);
+  background-position: center;
+  background-size: cover;
+}
+.confirmation-page .booking-nav {
+  background: var(--business-secondary);
+}
+.confirmation-shell {
+  min-height: calc(100vh - 82px);
+  display: grid;
+  place-items: center;
+  padding: 45px 20px;
+}
+.confirmation-card {
+  width: min(100%, 620px);
+  padding: clamp(30px, 6vw, 65px);
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: 12px 12px 0 var(--business-primary);
+}
+.booking-page .button-primary {
+  background: var(--business-primary);
+  color: var(--business-secondary);
+  box-shadow: 5px 5px 0 var(--business-secondary);
+}
+.booking-page .button-dark {
+  background: var(--business-secondary);
+}
+.confirmation-card h1 {
+  margin: 8px 0 12px;
+  font: 700 40px 'Playfair Display';
+}
+
+@media (max-width: 900px) {
+  .booking-shell {
+    grid-template-columns: 1fr;
+  }
+  .business-intro {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 560px) {
+  .booking-nav {
+    height: 70px;
+  }
+  .booking-nav > span {
+    display: none;
+  }
+  .business-intro {
+    min-height: 380px;
+  }
+  .business-intro h1 {
+    font-size: 50px;
+  }
+  .business-details {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 35px;
+  }
+  .booking-card {
+    padding: 45px 20px 70px;
+  }
+}

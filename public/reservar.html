@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Reserva tu cita en línea." />
+    <title>Reservar cita</title>
+    <link id="public-favicon" rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/booking.css?v=20260821-2" />
+    <script src="/booking.js?v=20260821-4" type="module"></script>
+  </head>
+  <body class="booking-page">
+    <header class="booking-nav">
+      <div class="public-business-brand">
+        <img id="public-business-logo" alt="" hidden />
+        <strong id="public-business-brand-name">Cargando…</strong>
+      </div>
+      <span>RESERVAS EN LÍNEA</span>
+    </header>
+    <main class="booking-shell">
+      <section class="business-intro">
+        <p class="eyebrow">TU PRÓXIMA EXPERIENCIA</p>
+        <h1 id="business-name">Cargando...</h1>
+        <p id="business-description"></p>
+        <div class="business-details">
+          <p><small>DIRECCIÓN</small><span id="business-address">—</span></p>
+          <p>
+            <small>CONTACTO</small
+            ><a id="business-phone" class="whatsapp-link" target="_blank" rel="noopener">—</a>
+          </p>
+          <p><small>HORARIO</small><span id="business-hours">—</span></p>
+        </div>
+      </section>
+      <section class="booking-card">
+        <div id="booking-form-panel">
+          <div class="step-heading">
+            <span>01</span>
+            <div>
+              <p class="eyebrow">ELIGE Y RESERVA</p>
+              <h2>Agenda tu cita</h2>
+            </div>
+          </div>
+          <form id="booking-form">
+            <label
+              >Servicio<select name="servicioId" required>
+                <option value="">Selecciona un servicio</option>
+              </select></label
+            >
+            <div id="selected-service" class="selected-service" hidden></div>
+            <label
+              >Trabajador<select name="empleadoId" required>
+                <option value="">Elige quién te atenderá</option>
+              </select></label
+            >
+            <div class="two-columns">
+              <label>Fecha<input name="fecha" type="date" required /></label>
+              <label
+                >Hora<select name="fechaHora" required disabled>
+                  <option value="">Selecciona servicio, trabajador y fecha</option>
+                </select></label
+              >
+            </div>
+            <p id="availability-help" class="availability-help">
+              Solo mostraremos horas disponibles dentro del horario del negocio.
+            </p>
+            <div class="two-columns">
+              <label
+                >Nombre completo<input
+                  name="clienteNombre"
+                  required
+                  minlength="3"
+                  autocomplete="name"
+              /></label>
+              <label
+                >Teléfono<input
+                  name="clienteTelefono"
+                  required
+                  minlength="8"
+                  maxlength="20"
+                  autocomplete="tel"
+              /></label>
+            </div>
+            <label
+              >Correo electrónico<input
+                name="clienteEmail"
+                type="email"
+                required
+                autocomplete="email"
+              /><small>Enviaremos un enlace para confirmar la cita.</small></label
+            >
+            <p class="form-error" role="alert"></p>
+            <button class="button button-primary button-full" type="submit">
+              Solicitar mi cita →
+            </button>
+          </form>
+        </div>
+        <div id="confirmation-panel" class="confirmation" hidden>
+          <span class="confirmation-check">✉</span>
+          <p class="eyebrow">CONFIRMACIÓN ENVIADA</p>
+          <h2>Revisa tu correo.</h2>
+          <p id="pending-message">
+            Tu horario está reservado temporalmente. Confírmalo desde el correo antes de que venza
+            el plazo.
+          </p>
+          <strong id="confirmation-code"></strong>
+          <dl>
+            <div>
+              <dt>Servicio</dt>
+              <dd id="confirmation-service"></dd>
+            </div>
+            <div>
+              <dt>Fecha</dt>
+              <dd id="confirmation-date"></dd>
+            </div>
+            <div>
+              <dt>Estado</dt>
+              <dd>Pendiente de confirmación</dd>
+            </div>
+          </dl>
+          <a id="dev-confirmation-link" class="button button-primary button-full" hidden
+            >Confirmar cita en modo demostración →</a
+          >
+          <button id="new-booking" class="button button-dark button-full">
+            Hacer otra reserva
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
