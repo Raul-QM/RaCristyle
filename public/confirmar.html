@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Confirma tu cita." />
+    <title>Confirmar cita</title>
+    <link id="confirmation-favicon" rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/booking.css?v=20260821-2" />
+    <script src="/confirmar.js?v=20260821-2" type="module"></script>
+  </head>
+  <body class="booking-page confirmation-page">
+    <header class="booking-nav">
+      <span class="brand">
+        <img id="confirmation-logo" alt="" hidden />
+        <span id="confirmation-business">Tu cita</span>
+      </span>
+      <span>CONFIRMACIÓN SEGURA</span>
+    </header>
+    <main class="confirmation-shell">
+      <section class="confirmation-card">
+        <div id="confirm-ready" class="confirmation">
+          <span class="confirmation-check">✓</span>
+          <p class="eyebrow">CONFIRMACIÓN SEGURA</p>
+          <h1 id="confirmation-status-title">Verificando tu cita...</h1>
+          <p id="confirmation-status-message">Espera mientras comprobamos el horario.</p>
+          <p class="form-error" role="alert"></p>
+        </div>
+        <div id="confirm-success" class="confirmation" hidden>
+          <span class="confirmation-check">✓</span>
+          <p class="eyebrow">CITA CONFIRMADA</p>
+          <h1>¡Nos vemos pronto!</h1>
+          <p>Tu cita quedó confirmada correctamente.</p>
+          <strong id="confirmed-code"></strong>
+          <dl>
+            <div>
+              <dt>Negocio</dt>
+              <dd id="confirmed-business"></dd>
+            </div>
+            <div>
+              <dt>Servicio</dt>
+              <dd id="confirmed-service"></dd>
+            </div>
+            <div>
+              <dt>Trabajador</dt>
+              <dd id="confirmed-professional"></dd>
+            </div>
+            <div>
+              <dt>Fecha</dt>
+              <dd id="confirmed-date"></dd>
+            </div>
+          </dl>
+          <a
+            id="confirmed-whatsapp"
+            class="button whatsapp-button button-full"
+            target="_blank"
+            rel="noopener"
+            hidden
+            >Escribir al negocio por WhatsApp ↗</a
+          >
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
