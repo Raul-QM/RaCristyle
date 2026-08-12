@@ -4,9 +4,11 @@ import { rateLimit } from 'express-rate-limit';
 import authRoutes from './routes/auth.js';
 import businessRoutes from './routes/businesses.js';
 import serviceRoutes from './routes/services.js';
+import publicRoutes from './routes/public.js';
+import employeeRoutes from './routes/employees.js';
+import appointmentRoutes from './routes/appointments.js';
 import { errorHandler } from './lib/errors.js';
 
-// Aplicación Express: cabeceras seguras, límite de solicitudes y rutas de la API.
 export function createApp() {
   const app = express();
   app.disable('x-powered-by');
@@ -34,6 +36,9 @@ export function createApp() {
   app.use('/api/auth', authRoutes);
   app.use('/api/negocios', businessRoutes);
   app.use('/api/servicios', serviceRoutes);
+  app.use('/api/public', publicRoutes);
+  app.use('/api/empleados', employeeRoutes);
+  app.use('/api/citas', appointmentRoutes);
   app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
   app.use(express.static('public'));
   app.use(errorHandler);
