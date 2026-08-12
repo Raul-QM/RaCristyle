@@ -1,0 +1,4 @@
+ALTER TABLE cita
+  ADD COLUMN IF NOT EXISTS motivo_cancelacion VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS cancelado_en TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS cancelacion_correo_enviado_en TIMESTAMPTZ;
