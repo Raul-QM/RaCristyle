@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: racristyle
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      TZ: ${TZ:-America/Costa_Rica}
+      PGTZ: ${TZ:-America/Costa_Rica}
     ports:
       - '5433:5432'
     volumes:
@@ -31,6 +33,7 @@ services:
     environment:
       PORT: 3000
       NODE_ENV: production
+      TZ: ${TZ:-America/Costa_Rica}
       DATABASE_URL: 'postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/racristyle'
       DATABASE_SSL: 'false'
       JWT_SECRET: '${JWT_SECRET:-clave-docker-local-racristyle-cambiala-antes-de-publicar}'
