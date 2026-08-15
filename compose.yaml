@@ -1,0 +1,54 @@
+name: racristyle
+
+services:
+  db:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: racristyle
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      TZ: ${TZ:-America/Costa_Rica}
+      PGTZ: ${TZ:-America/Costa_Rica}
+    ports:
+      - '5433:5432'
+    volumes:
+      - racristyle_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d racristyle']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      TZ: ${TZ:-America/Costa_Rica}
+      DATABASE_URL: 'postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/racristyle'
+      DATABASE_SSL: 'false'
+      JWT_SECRET: '${JWT_SECRET:-clave-docker-local-racristyle-cambiala-antes-de-publicar}'
+      APP_URL: '${APP_URL:-http://localhost:3000}'
+      BOOKING_CONFIRMATION_MINUTES: ${BOOKING_CONFIRMATION_MINUTES:-15}
+      MAIL_MODE: ${MAIL_MODE:-json}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_SECURE: ${SMTP_SECURE:-true}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: '${MAIL_FROM:-RaCristyle <no-reply@racristyle.local>}'
+    ports:
+      - '3000:3000'
+
+volumes:
+  racristyle_postgres_data:
+    name: racristyle_postgres_data
