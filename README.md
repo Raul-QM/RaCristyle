@@ -58,10 +58,33 @@ MAIL_FROM=RaCristyle <correo@gmail.com>
 Con Gmail se utiliza una contraseña de aplicación, no la contraseña normal. En un
 despliegue real, `APP_URL` debe ser una dirección accesible para el cliente.
 
+## Tecnologías y versiones
+
+| Capa                   | Tecnología                   | Versión         |
+| ---------------------- | ---------------------------- | --------------- |
+| Entorno de ejecución   | Node.js                      | 22 (>=20.19.0)  |
+| Backend y API REST     | Express                      | 5.1.0           |
+| Base de datos          | PostgreSQL                   | 16              |
+| Controlador PostgreSQL | pg                           | 8.16.3          |
+| Validación             | Zod                          | 4.0.14          |
+| Autenticación          | jsonwebtoken                 | 9.0.2           |
+| Contraseñas            | bcryptjs                     | 3.0.2           |
+| Correo electrónico     | Nodemailer                   | 9.0.3           |
+| Seguridad HTTP         | Helmet                       | 8.1.0           |
+| Límite de solicitudes  | express-rate-limit           | 8.0.1           |
+| Archivos               | Multer                       | 2.2.0           |
+| Variables de entorno   | dotenv                       | 17.2.1          |
+| Frontend               | HTML5, CSS3 y JavaScript ES  | Estándar web    |
+| Contenedores           | Docker y Docker Compose      | Compose v2      |
+| Calidad                | ESLint / Prettier            | 10.9.0 / 3.9.6  |
+| Pruebas                | Node Test Runner / Supertest | Node 22 / 7.2.2 |
+| BD de pruebas          | pg-mem                       | 3.0.14          |
+
 ## Requisitos
 
-- Node.js 20 o superior.
-- PostgreSQL 16.
+- Node.js 20.19.0 o superior (se recomienda Node.js 22).
+- PostgreSQL 16 para ejecución sin Docker.
+- Docker Desktop con Docker Compose v2 para la ejecución contenerizada.
 
 ## Ejecución local
 
@@ -168,10 +191,10 @@ instalación previa de PostgreSQL.
 
 ## Integrantes y roles Scrum
 
-| Integrante    | GitHub            | Rol              |
-| ------------- | ----------------- | ---------------- |
-| Raul Q.M      | [@Raul-QM](https://github.com/Raul-QM)             | Development Team |
-| Cristian Rojas | [@Cristianrm2606](https://github.com/Cristianrm2606) | Development Team |
+| Integrante     | GitHub                                               | Rol Scrum |
+| -------------- | ---------------------------------------------------- | --------- |
+| Raul Q.M       | [@Raul-QM](https://github.com/Raul-QM)               | Developer |
+| Cristian Rojas | [@Cristianrm2606](https://github.com/Cristianrm2606) | Developer |
 
 Ambos integrantes participaron durante los tres sprints en análisis, desarrollo, revisión cruzada
 entre ramas, pruebas e integración, alternando la implementación de las historias de usuario
