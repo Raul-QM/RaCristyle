@@ -152,3 +152,27 @@ pruebas automatizadas.
 
 Consulte `docs/SPRINT-1.md`, `docs/SPRINT-2.md` y `docs/SPRINT-3.md` para ver la trazabilidad entre
 historias, criterios y pruebas.
+
+## Credenciales de prueba
+
+`npm run db:seed` crea datos de demostración (negocio, servicios y profesionales) junto con una
+cuenta de dueño para iniciar sesión en el panel administrativo:
+
+| Campo      | Valor                   |
+| ---------- | ----------------------- |
+| Correo     | `demo@racristyle.local` |
+| Contraseña | `DemoRacri123`          |
+
+El modo demo (`npm run demo`) genera estos mismos datos automáticamente en memoria, sin requerir
+instalación previa de PostgreSQL.
+
+## Integrantes y roles Scrum
+
+| Integrante    | GitHub            | Rol              |
+| ------------- | ----------------- | ---------------- |
+| Raul Q.M      | [@Raul-QM](https://github.com/Raul-QM)             | Development Team |
+| Cristian Rojas | [@Cristianrm2606](https://github.com/Cristianrm2606) | Development Team |
+
+Ambos integrantes participaron durante los tres sprints en análisis, desarrollo, revisión cruzada
+entre ramas, pruebas e integración, alternando la implementación de las historias de usuario
+HU-01 a HU-09.
