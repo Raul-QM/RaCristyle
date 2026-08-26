@@ -21,6 +21,7 @@ import {
 const MINIMUM_NOTICE_MS = 5 * 60_000;
 const SLOT_INTERVAL_MINUTES = 15;
 const COSTA_RICA_OFFSET = '-06:00';
+const COSTA_RICA_TIME_ZONE = 'America/Costa_Rica';
 
 function toMinutes(time) {
   const [hours, minutes] = time.slice(0, 5).split(':').map(Number);
@@ -33,6 +34,29 @@ function getOpenDays(value) {
 
 function intervalsOverlap(start, end, occupiedStart, occupiedEnd) {
   return start < occupiedEnd && end > occupiedStart;
+}
+
+function getCostaRicaDateParts(date) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: COSTA_RICA_TIME_ZONE,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    })
+      .formatToParts(date)
+      .filter(({ type }) => type !== 'literal')
+      .map(({ type, value }) => [type, Number(value)]),
+  );
+  return {
+    ...parts,
+    dateKey: `${parts.year}-${parts.month}-${parts.day}`,
+    weekday: new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay(),
+    minutes: parts.hour * 60 + parts.minute,
+  };
 }
 
 export async function getPublicBusiness(businessId) {
@@ -55,12 +79,14 @@ export async function getAvailableSlots(data, now = new Date()) {
     throw new HttpError(404, 'Servicio o trabajador no disponible.');
   }
 
-  const dayStart = new Date(`${data.fecha}T00:00:00`);
-  if (!getOpenDays(context.business.dias_abiertos).includes(dayStart.getDay())) {
+  const dayStart = new Date(`${data.fecha}T00:00:00${COSTA_RICA_OFFSET}`);
+  if (
+    !getOpenDays(context.business.dias_abiertos).includes(getCostaRicaDateParts(dayStart).weekday)
+  ) {
     return { horarios: [], cerrado: true };
   }
 
-  const dayEnd = new Date(`${data.fecha}T23:59:59`);
+  const dayEnd = new Date(`${data.fecha}T23:59:59${COSTA_RICA_OFFSET}`);
   await expirePendingAppointments(data.empleadoId);
   const occupied = await listOccupiedIntervals(data.empleadoId, dayStart, dayEnd);
   const opening = toMinutes(context.business.hora_apertura);
@@ -69,8 +95,9 @@ export async function getAvailableSlots(data, now = new Date()) {
   const horarios = [];
 
   for (let minute = opening; minute + duration <= closing; minute += SLOT_INTERVAL_MINUTES) {
-    const start = new Date(dayStart);
-    start.setHours(Math.floor(minute / 60), minute % 60, 0, 0);
+    const hourText = String(Math.floor(minute / 60)).padStart(2, '0');
+    const minuteText = String(minute % 60).padStart(2, '0');
+    const start = new Date(`${data.fecha}T${hourText}:${minuteText}:00${COSTA_RICA_OFFSET}`);
     const end = new Date(start.getTime() + duration * 60_000);
     if (start.getTime() < now.getTime() + MINIMUM_NOTICE_MS) continue;
 
@@ -88,6 +115,7 @@ export async function getAvailableSlots(data, now = new Date()) {
         etiqueta: new Intl.DateTimeFormat('es-CR', {
           hour: 'numeric',
           minute: '2-digit',
+          timeZone: COSTA_RICA_TIME_ZONE,
         }).format(start),
       });
     }
@@ -137,17 +165,17 @@ export async function confirmBooking(token) {
 }
 
 function validateBusinessHours(start, end, business) {
-  if (!getOpenDays(business.dias_abiertos).includes(start.getDay())) {
+  const localStart = getCostaRicaDateParts(start);
+  const localEnd = getCostaRicaDateParts(end);
+  if (!getOpenDays(business.dias_abiertos).includes(localStart.weekday)) {
     throw new HttpError(409, 'El negocio está cerrado el día seleccionado.');
   }
   const opening = toMinutes(business.hora_apertura);
   const closing = toMinutes(business.hora_cierre);
-  const startMinutes = start.getHours() * 60 + start.getMinutes();
-  const endMinutes = end.getHours() * 60 + end.getMinutes();
   if (
-    startMinutes < opening ||
-    endMinutes > closing ||
-    start.toDateString() !== end.toDateString()
+    localStart.minutes < opening ||
+    localEnd.minutes > closing ||
+    localStart.dateKey !== localEnd.dateKey
   ) {
     throw new HttpError(
       409,
