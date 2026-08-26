@@ -32,6 +32,26 @@ function capitalizeFirst(value) {
   return value.replace(/^./u, (letter) => letter.toLocaleUpperCase('es-CR'));
 }
 
+function getSenderAddress() {
+  if (config.mail.user) return config.mail.user;
+  const match = config.mail.from.match(/<([^>]+)>/);
+  return match?.[1] || config.mail.from;
+}
+
+/**
+ * Conserva una única cuenta SMTP, pero presenta cada mensaje con la identidad
+ * del negocio y dirige las respuestas al correo verificado de su propietario.
+ */
+export function buildBusinessSender(business, replyTo) {
+  const safeBusinessName = String(business || 'RaCristyle')
+    .replace(/[\r\n]/g, ' ')
+    .trim();
+  return {
+    from: { name: safeBusinessName, address: getSenderAddress() },
+    ...(replyTo ? { replyTo } : {}),
+  };
+}
+
 function buildEmailBranding(branding = {}) {
   const validColor = (value, fallback) => (/^#[0-9a-f]{6}$/i.test(value || '') ? value : fallback);
   const primary = validColor(branding.color_primario, '#d9ff43');
@@ -51,7 +71,7 @@ function buildEmailBranding(branding = {}) {
       cid: 'business-logo',
     });
     logo =
-      '<img src="cid:business-logo" alt="" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:cover;border-radius:50%;margin-bottom:14px" />';
+      '<img src="cid:business-logo" alt="Logo del negocio" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:cover;border-radius:50%;margin-bottom:14px" />';
   }
   return { primary, secondary, background, attachments, logo };
 }
@@ -67,6 +87,7 @@ export async function sendBookingConfirmation({
   code,
   token,
   branding,
+  replyTo,
 }) {
   const theme = buildEmailBranding(branding);
   const confirmationUrl = `${config.appUrl}/confirmar.html?token=${encodeURIComponent(token)}`;
@@ -83,7 +104,7 @@ export async function sendBookingConfirmation({
   }).format(price);
 
   const info = await transporter.sendMail({
-    from: config.mail.from,
+    ...buildBusinessSender(business, replyTo),
     to,
     attachments: theme.attachments,
     // El código vuelve único el asunto y evita que Gmail agrupe mensajes
@@ -144,6 +165,7 @@ export async function sendBookingCancellation({
   fondo_tipo,
   color_primario,
   color_secundario,
+  propietario_email: replyTo,
 }) {
   const theme = buildEmailBranding({ logo_data, fondo_tipo, color_primario, color_secundario });
   const formattedDate = capitalizeFirst(
@@ -157,7 +179,7 @@ export async function sendBookingCancellation({
     `Hola ${customer}. Tu cita ${code} para ${service} con ${trabajador}, ` +
     `${formattedDate}, fue cancelada por ${business}. Motivo: ${reason}`;
   const info = await transporter.sendMail({
-    from: config.mail.from,
+    ...buildBusinessSender(business, replyTo),
     to,
     subject,
     text,

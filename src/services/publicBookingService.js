@@ -210,6 +210,7 @@ export async function requestBooking(data) {
       date: start,
       code: reservation.appointment.codigo_confirmacion,
       token: reservation.confirmationToken,
+      replyTo: reservation.business.propietario_email,
     });
     await markConfirmationEmailSent(reservation.appointment.id_cita);
   } catch (error) {
