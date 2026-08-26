@@ -44,3 +44,7 @@ export function createApp() {
   app.use(errorHandler);
   return app;
 }
+
+// Entrada que Vercel detecta en src/app.js para ejecutar Express como función
+// serverless. La fábrica permanece exportada para pruebas y ejecución local.
+export default createApp();
