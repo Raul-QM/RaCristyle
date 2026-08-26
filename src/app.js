@@ -1,6 +1,8 @@
 import express from 'express';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import authRoutes from './routes/auth.js';
 import businessRoutes from './routes/businesses.js';
 import serviceRoutes from './routes/services.js';
@@ -8,6 +10,8 @@ import publicRoutes from './routes/public.js';
 import employeeRoutes from './routes/employees.js';
 import appointmentRoutes from './routes/appointments.js';
 import { errorHandler } from './lib/errors.js';
+
+const publicDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../public');
 
 export function createApp() {
   const app = express();
@@ -40,7 +44,7 @@ export function createApp() {
   app.use('/api/empleados', employeeRoutes);
   app.use('/api/citas', appointmentRoutes);
   app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
-  app.use(express.static('public'));
+  app.use(express.static(publicDirectory));
   app.use(errorHandler);
   return app;
 }
