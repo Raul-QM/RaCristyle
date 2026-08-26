@@ -11,6 +11,7 @@ let businessOpenDays = [];
 let businessReloading = false;
 let businessReloadPending = false;
 let businessSnapshot = '';
+let availabilityRequestId = 0;
 const updatesChannel =
   'BroadcastChannel' in window ? new BroadcastChannel('racristyle-updates') : null;
 
@@ -28,7 +29,7 @@ async function api(path, options = {}) {
   return requestApi(path, options);
 }
 
-async function loadBusiness({ announce = false } = {}) {
+async function loadBusiness() {
   if (businessReloading) {
     businessReloadPending = true;
     return;
@@ -126,10 +127,6 @@ async function loadBusiness({ announce = false } = {}) {
       employeeSelect.innerHTML = '<option value="">No hay trabajadores disponibles</option>';
     }
     select.dispatchEvent(new Event('change'));
-    if (announce) {
-      $('#availability-help').textContent =
-        'La información del negocio se actualizó automáticamente.';
-    }
   } catch (error) {
     if (!businessSnapshot) {
       $('.booking-card').innerHTML =
@@ -141,7 +138,7 @@ async function loadBusiness({ announce = false } = {}) {
     businessReloading = false;
     if (businessReloadPending) {
       businessReloadPending = false;
-      queueMicrotask(() => loadBusiness({ announce: true }));
+      queueMicrotask(() => loadBusiness());
     }
   }
 }
@@ -164,7 +161,7 @@ $('#booking-form').fecha.addEventListener('change', (event) => {
   if (selectedDate) {
     const selectedDay = new Date(`${selectedDate}T12:00:00`).getDay();
     if (!businessOpenDays.includes(selectedDay)) {
-      event.target.value = '';
+      availabilityRequestId += 1;
       $('#booking-form').fechaHora.disabled = true;
       $('#booking-form').fechaHora.innerHTML =
         '<option value="">El negocio está cerrado ese día</option>';
@@ -178,6 +175,7 @@ $('#booking-form').fecha.addEventListener('change', (event) => {
 $('#booking-form').empleadoId.addEventListener('change', loadAvailability);
 
 async function loadAvailability() {
+  const requestId = ++availabilityRequestId;
   const form = $('#booking-form');
   const timeSelect = form.fechaHora;
   const serviceId = form.servicioId.value;
@@ -187,6 +185,22 @@ async function loadAvailability() {
 
   if (!serviceId || !employeeId || !date) {
     timeSelect.innerHTML = '<option value="">Selecciona servicio, trabajador y fecha</option>';
+    if (!services.length) {
+      $('#availability-help').textContent = 'Este negocio no tiene servicios disponibles.';
+    } else if (!employees.length) {
+      $('#availability-help').textContent = 'Este negocio no tiene trabajadores disponibles.';
+    } else {
+      $('#availability-help').textContent =
+        'Selecciona un servicio, un trabajador y una fecha para consultar los horarios.';
+    }
+    return;
+  }
+
+  const selectedDay = new Date(`${date}T12:00:00`).getDay();
+  if (!businessOpenDays.includes(selectedDay)) {
+    timeSelect.innerHTML = '<option value="">El negocio está cerrado ese día</option>';
+    $('#availability-help').textContent =
+      'Ese día no está dentro de los días de atención. Selecciona otra fecha.';
     return;
   }
 
@@ -199,6 +213,7 @@ async function loadAvailability() {
       fecha: date,
     });
     const { horarios, cerrado } = await api(`/public/disponibilidad?${query}`);
+    if (requestId !== availabilityRequestId) return;
     if (!horarios.length) {
       timeSelect.innerHTML = `<option value="">${cerrado ? 'El negocio está cerrado ese día' : 'No hay horas disponibles ese día'}</option>`;
       $('#availability-help').textContent = cerrado
@@ -217,6 +232,7 @@ async function loadAvailability() {
     $('#availability-help').textContent =
       `Horarios disponibles entre ${businessHours.opening} y ${businessHours.closing}.`;
   } catch (error) {
+    if (requestId !== availabilityRequestId) return;
     timeSelect.innerHTML = '<option value="">No fue posible cargar las horas</option>';
     $('#availability-help').textContent = error.message;
   }
@@ -285,20 +301,20 @@ updatesChannel?.addEventListener('message', (event) => {
     event.data?.type === 'business-updated' &&
     String(event.data.businessId) === String(businessId)
   ) {
-    loadBusiness({ announce: true });
+    loadBusiness();
   }
 });
 
 window.addEventListener('storage', (event) => {
   if (event.key === 'racristyle_last_update' && event.newValue?.startsWith(`${businessId}:`)) {
-    loadBusiness({ announce: true });
+    loadBusiness();
   }
 });
 
-window.addEventListener('focus', () => loadBusiness({ announce: true }));
+window.addEventListener('focus', () => loadBusiness());
 
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) loadBusiness({ announce: true });
+  if (!document.hidden) loadBusiness();
 });
 
 // Respaldo moderado para otros dispositivos o navegadores que no comparten eventos.

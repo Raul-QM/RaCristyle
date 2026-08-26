@@ -58,6 +58,14 @@ async function confirmBooking() {
 
     const appointment = data.cita;
     applyBranding(appointment);
+    if (data.yaConfirmada) {
+      $('.confirmation-check').textContent = '✓';
+      $('#confirmation-status-title').textContent = 'Esta cita ya fue confirmada';
+      $('#confirmation-status-message').textContent =
+        'No necesitas confirmarla nuevamente. Tu cita continúa reservada.';
+      errorElement.textContent = '';
+      return;
+    }
     $('#confirmed-code').textContent = appointment.codigo_confirmacion;
     $('#confirmed-business').textContent = appointment.negocio;
     $('#confirmed-service').textContent = appointment.servicio;

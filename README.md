@@ -1,7 +1,7 @@
 # RaCristyle
 
 Plataforma SaaS para que barberías, salones de belleza y spas administren su presencia
-y reciban reservas en línea. El proyecto implementa los **Sprint 1, 2 y 3**:
+y reciban reservas en línea. El proyecto implementa los **Sprint 1, 2, 3 y 4**:
 
 - HU-01: registro de dueños, con correo único y contraseña protegida con bcrypt (12 rondas).
 - HU-02: inicio de sesión mediante JWT con vigencia de 8 horas.
@@ -12,10 +12,13 @@ y reciban reservas en línea. El proyecto implementa los **Sprint 1, 2 y 3**:
 - HU-07: agenda privada para consultar y filtrar las citas del negocio.
 - HU-08: cancelación administrativa de citas con liberación del horario.
 - HU-09: edición segura de los servicios del negocio.
+- HU-10: publicación del sistema mediante una URL accesible desde Internet.
 
 Las cancelaciones requieren un motivo y notifican al cliente por correo. Si la cita fue
 cancelada, su enlace de confirmación queda invalidado y muestra ese motivo. Cada negocio también
 puede personalizar su página pública mediante logo, colores y fondos.
+Una misma cuenta puede administrar varios negocios independientes y alternar entre ellos desde
+el panel sin mezclar servicios, trabajadores, citas ni diseños.
 
 Cada negocio configura su horario de apertura y cierre. Las reservas se validan tanto
 en el navegador como en la API y la duración completa del servicio debe quedar dentro
@@ -86,6 +89,20 @@ despliegue real, `APP_URL` debe ser una dirección accesible para el cliente.
 - PostgreSQL 16 para ejecución sin Docker.
 - Docker Desktop con Docker Compose v2 para la ejecución contenerizada.
 
+## Sistema desplegado
+
+| Componente                 | Dirección o proveedor                       |
+| -------------------------- | ------------------------------------------- |
+| Aplicación pública         | <https://ra-cristyle.vercel.app/>           |
+| API REST                   | <https://ra-cristyle.vercel.app/api>        |
+| Comprobación de salud      | <https://ra-cristyle.vercel.app/api/health> |
+| Frontend y backend Express | Vercel, mediante una función serverless     |
+| PostgreSQL 16              | Neon                                        |
+
+La página de cada negocio se abre mediante el parámetro `?negocio=<id>` en la URL de reservas.
+Las credenciales y cadenas de conexión de producción se administran como variables de entorno en
+Vercel y no se almacenan en Git.
+
 ## Ejecución local
 
 1. Cree una base de datos PostgreSQL llamada `racristyle`.
@@ -153,7 +170,9 @@ reemplaza `DATABASE_URL` para que la aplicación se conecte al servicio `db`.
 | GET    | `/api/citas`                       | Lista la agenda privada y permite filtrar por fecha o estado |
 | PATCH  | `/api/citas/:id/cancelar`          | Cancela una cita propia pendiente o confirmada               |
 | PUT    | `/api/servicios/:id`               | Edita un servicio perteneciente al negocio                   |
+| PATCH  | `/api/servicios/:id/estado`        | Deshabilita o rehabilita un servicio                         |
 | PUT    | `/api/empleados/:id`               | Edita un trabajador perteneciente al negocio                 |
+| PATCH  | `/api/empleados/:id/estado`        | Deshabilita o rehabilita un trabajador                       |
 
 Las rutas privadas requieren `Authorization: Bearer <token>`. La API limita cada IP
 a 100 solicitudes por minuto y aplica cabeceras seguras con Helmet.
@@ -169,12 +188,14 @@ npm run quality
 ```
 
 Este comando valida el código con ESLint, comprueba el formato con Prettier y ejecuta todas las
-pruebas automatizadas.
+pruebas automatizadas. La versión actual contiene **41 pruebas**, incluidas pruebas funcionales,
+E2E, seguridad, carga básica, estrés y repetibilidad del seed.
 
 ## Evidencia de aceptación
 
 Consulte `docs/SPRINT-1.md`, `docs/SPRINT-2.md` y `docs/SPRINT-3.md` para ver la trazabilidad entre
-historias, criterios y pruebas.
+historias, criterios y pruebas. La HU-10 se evidencia mediante la URL pública y el endpoint de
+salud indicados en la sección de despliegue.
 
 ## Credenciales de prueba
 
@@ -196,6 +217,6 @@ instalación previa de PostgreSQL.
 | Raul Q.M       | [@Raul-QM](https://github.com/Raul-QM)               | Developer |
 | Cristian Rojas | [@Cristianrm2606](https://github.com/Cristianrm2606) | Developer |
 
-Ambos integrantes participaron durante los tres sprints en análisis, desarrollo, revisión cruzada
-entre ramas, pruebas e integración, alternando la implementación de las historias de usuario
-HU-01 a HU-09.
+Ambos integrantes participaron durante los cuatro sprints en análisis, desarrollo, revisión
+cruzada entre ramas, pruebas e integración, alternando la implementación de las historias de
+usuario HU-01 a HU-10.

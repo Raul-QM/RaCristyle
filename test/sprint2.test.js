@@ -132,6 +132,13 @@ test('HU-05 crea una cita pendiente y HU-06 la confirma mediante token', async (
   assert.equal(confirmed.body.cita.cliente_nombre, 'Cliente Prueba');
   assert.equal(confirmed.body.cita.cliente_telefono, '88887777');
   assert.equal(confirmed.body.cita.profesional, 'Andrés Mora');
+
+  const repeatedConfirmation = await request(app)
+    .post('/api/public/citas/confirmar')
+    .send({ token: confirmationToken });
+  assert.equal(repeatedConfirmation.status, 200);
+  assert.equal(repeatedConfirmation.body.yaConfirmada, true);
+  assert.equal(repeatedConfirmation.body.cita.estado, 'Confirmada');
 });
 
 test('HU-06 rechaza un token de confirmación inválido', async () => {
