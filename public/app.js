@@ -10,6 +10,11 @@ const state = {
   employees: [],
   creatingBusiness: false,
 };
+
+const businessPhoneInput = $('#business-form')?.telefono;
+businessPhoneInput?.addEventListener('input', () => {
+  businessPhoneInput.value = businessPhoneInput.value.replace(/\D/g, '').slice(0, 8);
+});
 const updatesChannel =
   'BroadcastChannel' in window ? new BroadcastChannel('racristyle-updates') : null;
 

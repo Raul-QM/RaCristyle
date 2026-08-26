@@ -14,6 +14,11 @@ let businessSnapshot = '';
 const updatesChannel =
   'BroadcastChannel' in window ? new BroadcastChannel('racristyle-updates') : null;
 
+const customerPhoneInput = $('#booking-form').clienteTelefono;
+customerPhoneInput.addEventListener('input', () => {
+  customerPhoneInput.value = customerPhoneInput.value.replace(/\D/g, '').slice(0, 8);
+});
+
 function circularFavicon(image) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><clipPath id="c"><circle cx="32" cy="32" r="30"/></clipPath></defs><image href="${image}" width="64" height="64" preserveAspectRatio="xMidYMid slice" clip-path="url(#c)"/></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
