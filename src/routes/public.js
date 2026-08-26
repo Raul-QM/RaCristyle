@@ -16,6 +16,15 @@ const costaRicaPhoneSchema = z
   .trim()
   .transform((value) => value.replace(/[\s-]/g, ''))
   .pipe(z.string().regex(/^\d{8}$/, 'El teléfono debe contener exactamente 8 dígitos.'));
+const bookingDateTimeSchema = z.any().superRefine((value, context) => {
+  if (typeof value !== 'string' || !value) {
+    context.addIssue({ code: 'custom', message: 'Selecciona una hora disponible.' });
+    return;
+  }
+  if (!z.string().datetime({ local: true }).safeParse(value).success) {
+    context.addIssue({ code: 'custom', message: 'Selecciona una fecha y hora válida.' });
+  }
+});
 const bookingSchema = z.object({
   negocioId: z.coerce.number().int().positive(),
   servicioId: z.coerce.number().int().positive(),
@@ -23,13 +32,7 @@ const bookingSchema = z.object({
   clienteNombre: z.string().trim().min(3, 'Ingresa tu nombre completo.').max(100),
   clienteEmail: z.string().trim().toLowerCase().email('El correo no es válido.').max(150),
   clienteTelefono: costaRicaPhoneSchema,
-  fechaHora: z.preprocess(
-    (value) => value ?? '',
-    z
-      .string()
-      .min(1, 'Selecciona una hora disponible.')
-      .datetime({ local: true, message: 'Selecciona una fecha y hora válida.' }),
-  ),
+  fechaHora: bookingDateTimeSchema,
 });
 const availabilitySchema = z.object({
   negocioId: z.coerce.number().int().positive(),

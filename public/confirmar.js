@@ -63,17 +63,25 @@ async function confirmBooking() {
     $('#confirmed-service').textContent = appointment.servicio;
     $('#confirmed-professional').textContent = appointment.profesional;
     $('#confirmed-date').textContent = capitalizeFirst(
-      new Intl.DateTimeFormat('es-CR', { dateStyle: 'full', timeStyle: 'short' }).format(
-        new Date(appointment.fecha_inicio),
-      ),
+      new Intl.DateTimeFormat('es-CR', {
+        dateStyle: 'full',
+        timeStyle: 'short',
+        timeZone: 'America/Costa_Rica',
+      }).format(new Date(appointment.fecha_inicio)),
     );
     const whatsapp = $('#confirmed-whatsapp');
     if (appointment.negocio_telefono) {
       const appointmentDate = new Date(appointment.fecha_inicio);
       const date = capitalizeFirst(
-        new Intl.DateTimeFormat('es-CR', { dateStyle: 'full' }).format(appointmentDate),
+        new Intl.DateTimeFormat('es-CR', {
+          dateStyle: 'full',
+          timeZone: 'America/Costa_Rica',
+        }).format(appointmentDate),
       );
-      const time = new Intl.DateTimeFormat('es-CR', { timeStyle: 'short' }).format(appointmentDate);
+      const time = new Intl.DateTimeFormat('es-CR', {
+        timeStyle: 'short',
+        timeZone: 'America/Costa_Rica',
+      }).format(appointmentDate);
       const message = [
         'Hola, confirmé mi cita:',
         `Código: ${appointment.codigo_confirmacion}`,

@@ -306,15 +306,20 @@ async function loadAppointments() {
         const start = new Date(appointment.fecha_inicio);
         const end = new Date(appointment.fecha_fin);
         const date = capitalizeFirst(
-          new Intl.DateTimeFormat('es-CR', { dateStyle: 'full' }).format(start),
+          new Intl.DateTimeFormat('es-CR', {
+            dateStyle: 'full',
+            timeZone: 'America/Costa_Rica',
+          }).format(start),
         );
         const time = new Intl.DateTimeFormat('es-CR', {
           hour: 'numeric',
           minute: '2-digit',
+          timeZone: 'America/Costa_Rica',
         }).format(start);
         const endTime = new Intl.DateTimeFormat('es-CR', {
           hour: 'numeric',
           minute: '2-digit',
+          timeZone: 'America/Costa_Rica',
         }).format(end);
         const phone = escapeHtml(appointment.cliente_telefono);
         const canCancel = ['Pendiente', 'Confirmada'].includes(appointment.estado);
