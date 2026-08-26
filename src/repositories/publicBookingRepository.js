@@ -110,7 +110,8 @@ export async function findAppointmentByTokenForUpdate(client, tokenHash) {
 export async function updateAppointmentStatus(client, appointmentId, status) {
   const result = await client.query(
     `UPDATE cita
-     SET estado = $2, confirmado_en = CASE WHEN $2 = 'Confirmada' THEN NOW() ELSE confirmado_en END
+     SET estado = $2::varchar,
+         confirmado_en = CASE WHEN $2::varchar = 'Confirmada' THEN NOW() ELSE confirmado_en END
      WHERE id_cita = $1
      RETURNING id_cita, estado, codigo_confirmacion, fecha_inicio`,
     [appointmentId, status],
