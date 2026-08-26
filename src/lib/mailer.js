@@ -95,6 +95,7 @@ export async function sendBookingConfirmation({
     new Intl.DateTimeFormat('es-CR', {
       dateStyle: 'full',
       timeStyle: 'short',
+      timeZone: 'America/Costa_Rica',
     }).format(new Date(date)),
   );
   const formattedPrice = new Intl.NumberFormat('es-CR', {
@@ -172,6 +173,7 @@ export async function sendBookingCancellation({
     new Intl.DateTimeFormat('es-CR', {
       dateStyle: 'full',
       timeStyle: 'short',
+      timeZone: 'America/Costa_Rica',
     }).format(new Date(date)),
   );
   const subject = `Cita ${code} cancelada por ${business}`;

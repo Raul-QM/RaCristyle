@@ -223,6 +223,11 @@ $('#booking-form').addEventListener('submit', async (event) => {
   const errorElement = $('.form-error', form);
   const button = $('button[type="submit"]', form);
   errorElement.textContent = '';
+  if (!form.fechaHora.value) {
+    errorElement.textContent =
+      'No hay una hora seleccionada. Elige una fecha con horarios disponibles dentro de la jornada del negocio.';
+    return;
+  }
   button.disabled = true;
   button.textContent = 'Verificando disponibilidad...';
   try {
@@ -239,6 +244,7 @@ $('#booking-form').addEventListener('submit', async (event) => {
       new Intl.DateTimeFormat('es-CR', {
         dateStyle: 'full',
         timeStyle: 'short',
+        timeZone: 'America/Costa_Rica',
       }).format(new Date(solicitud.fecha_inicio)),
     );
     $('#pending-message').textContent =

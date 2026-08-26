@@ -11,14 +11,25 @@ import {
 
 const router = Router();
 const idSchema = z.coerce.number().int().positive();
+const costaRicaPhoneSchema = z
+  .string()
+  .trim()
+  .transform((value) => value.replace(/[\s-]/g, ''))
+  .pipe(z.string().regex(/^\d{8}$/, 'El teléfono debe contener exactamente 8 dígitos.'));
 const bookingSchema = z.object({
   negocioId: z.coerce.number().int().positive(),
   servicioId: z.coerce.number().int().positive(),
   empleadoId: z.coerce.number().int().positive(),
   clienteNombre: z.string().trim().min(3, 'Ingresa tu nombre completo.').max(100),
   clienteEmail: z.string().trim().toLowerCase().email('El correo no es válido.').max(150),
-  clienteTelefono: z.string().trim().min(8, 'Ingresa un teléfono válido.').max(20),
-  fechaHora: z.string().datetime({ local: true, message: 'Selecciona una fecha y hora válida.' }),
+  clienteTelefono: costaRicaPhoneSchema,
+  fechaHora: z.preprocess(
+    (value) => value ?? '',
+    z
+      .string()
+      .min(1, 'Selecciona una hora disponible.')
+      .datetime({ local: true, message: 'Selecciona una fecha y hora válida.' }),
+  ),
 });
 const availabilitySchema = z.object({
   negocioId: z.coerce.number().int().positive(),

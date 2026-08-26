@@ -32,7 +32,11 @@ const businessSchema = z
       .trim()
       .min(10, 'Describe el negocio en al menos 10 caracteres.')
       .max(700),
-    telefono: z.string().trim().max(20).optional().default(''),
+    telefono: z
+      .string()
+      .trim()
+      .transform((value) => value.replace(/[\s-]/g, ''))
+      .pipe(z.string().regex(/^\d{8}$/, 'El teléfono debe contener exactamente 8 dígitos.')),
     direccion: z.string().trim().max(150).optional().default(''),
     horaApertura: z
       .string()

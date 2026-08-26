@@ -185,6 +185,54 @@ test('HU-05 rechaza reservas fuera del horario de atención', async () => {
   assert.match(response.body.error, /atiende de 08:00 a 18:00/i);
 });
 
+test('HU-05 explica cuando falta una hora disponible y valida el teléfono nacional', async () => {
+  const baseBooking = {
+    negocioId: businessId,
+    servicioId: serviceId,
+    empleadoId: employeeId,
+    clienteNombre: 'Cliente Validación',
+    clienteEmail: 'validacion@example.com',
+    clienteTelefono: '88887777',
+  };
+
+  const missingTime = await request(app).post('/api/public/citas').send(baseBooking);
+  assert.equal(missingTime.status, 400);
+  assert.match(missingTime.body.details[0].mensaje, /hora disponible/i);
+
+  const invalidPhone = await request(app)
+    .post('/api/public/citas')
+    .send({
+      ...baseBooking,
+      clienteTelefono: '+50688887777',
+      fechaHora: futureAt(10, 10).toISOString(),
+    });
+  assert.equal(invalidPhone.status, 400);
+  assert.match(invalidPhone.body.details[0].mensaje, /exactamente 8 dígitos/i);
+});
+
+test('HU-05 conserva en producción la hora civil seleccionada en Costa Rica', async () => {
+  const selectedDate = localDate(futureAt(20, 11));
+  const response = await request(app)
+    .post('/api/public/citas')
+    .send({
+      negocioId: businessId,
+      servicioId: serviceId,
+      empleadoId: secondEmployeeId,
+      clienteNombre: 'Cliente Zona Horaria',
+      clienteEmail: 'zona-horaria@example.com',
+      clienteTelefono: '88886666',
+      fechaHora: `${selectedDate}T11:00:00`,
+    });
+
+  assert.equal(response.status, 201);
+  const displayedHour = new Intl.DateTimeFormat('es-CR', {
+    hour: '2-digit',
+    hour12: false,
+    timeZone: 'America/Costa_Rica',
+  }).format(new Date(response.body.solicitud.fecha_inicio));
+  assert.equal(displayedHour, '11');
+});
+
 test('la disponibilidad solo muestra horas abiertas y oculta las ocupadas', async () => {
   const date = futureAt(4, 0).toISOString().slice(0, 10);
   const query = {

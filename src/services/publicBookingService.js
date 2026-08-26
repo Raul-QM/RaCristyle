@@ -20,6 +20,7 @@ import {
 
 const MINIMUM_NOTICE_MS = 5 * 60_000;
 const SLOT_INTERVAL_MINUTES = 15;
+const COSTA_RICA_OFFSET = '-06:00';
 
 function toMinutes(time) {
   const [hours, minutes] = time.slice(0, 5).split(':').map(Number);
@@ -162,7 +163,12 @@ function validateBusinessHours(start, end, business) {
  * @returns {Promise<object>} Solicitud pendiente junto con sus datos de presentación.
  */
 export async function requestBooking(data) {
-  const start = new Date(data.fechaHora);
+  // Los horarios públicos representan hora civil de Costa Rica. El sufijo
+  // evita que entornos UTC como Vercel interpreten 11:00 como 11:00 UTC.
+  const hasExplicitOffset = /(?:Z|[+-]\d{2}:\d{2})$/i.test(data.fechaHora);
+  const start = new Date(
+    hasExplicitOffset ? data.fechaHora : `${data.fechaHora}${COSTA_RICA_OFFSET}`,
+  );
   if (Number.isNaN(start.getTime())) throw new HttpError(400, 'La fecha no es válida.');
   if (start.getTime() < Date.now() + MINIMUM_NOTICE_MS) {
     throw new HttpError(400, 'La cita debe reservarse con al menos 5 minutos de anticipación.');

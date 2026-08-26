@@ -300,8 +300,11 @@
                 name="telefono"
                 required
                 minlength="8"
-                maxlength="20"
-                placeholder="8888-8888"
+                maxlength="9"
+                inputmode="numeric"
+                pattern="[0-9]{4}-?[0-9]{4}"
+                title="Ingresa exactamente 8 dígitos"
+                placeholder="88888888"
             /></label>
             <label
               >Dirección<input
