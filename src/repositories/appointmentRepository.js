@@ -52,10 +52,11 @@ export async function findCancellationEmailData(businessId, appointmentId) {
     `SELECT c.id_cita, c.estado, c.cliente_nombre, c.cliente_email, c.fecha_inicio,
             c.codigo_confirmacion, c.motivo_cancelacion,
             n.nombre AS negocio, n.logo_data, n.fondo_tipo, n.fondo_data,
-            n.color_primario, n.color_secundario,
+            n.color_primario, n.color_secundario, u.email AS propietario_email,
             s.nombre AS servicio, e.nombre AS trabajador
      FROM cita c
      JOIN negocio n ON n.id_negocio = c.id_negocio
+     JOIN usuario u ON u.id_usuario = n.id_usuario
      JOIN servicio s ON s.id_servicio = c.id_servicio
      LEFT JOIN empleado e ON e.id_empleado = c.id_empleado
      WHERE c.id_cita = $1 AND c.id_negocio = $2`,

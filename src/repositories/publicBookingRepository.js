@@ -122,9 +122,11 @@ export async function findEmployeeAndBusinessForUpdate(client, employeeId, busin
   const result = await client.query(
     `SELECT e.id_empleado, e.nombre AS empleado_nombre,
             n.nombre AS negocio_nombre, n.hora_apertura, n.hora_cierre, n.dias_abiertos,
-            n.logo_data, n.fondo_tipo, n.fondo_data, n.color_primario, n.color_secundario
+            n.logo_data, n.fondo_tipo, n.fondo_data, n.color_primario, n.color_secundario,
+            u.email AS propietario_email
      FROM empleado e
      JOIN negocio n ON n.id_negocio = e.id_negocio
+     JOIN usuario u ON u.id_usuario = n.id_usuario
      WHERE e.id_empleado = $1 AND e.id_negocio = $2 AND e.activo = TRUE
      FOR UPDATE`,
     [employeeId, businessId],
